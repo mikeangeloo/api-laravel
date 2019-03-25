@@ -114,8 +114,14 @@ class CarsController extends Controller
      */
     public function show($id)
     {
-        $car = Car::find($id)->load('user');
-        return response()->json(array('car' => $car, 'status' => 'success'),200);
+        $car = Car::find($id);
+        if(is_object($car)){
+            $car = Car::find($id)->load('user');
+            return response()->json(array('car' => $car, 'status' => 'success'),200);
+        }else{
+            return response()->json(array('message' => 'El coche no existe', 'status' => 'error'),200);
+        }
+
     }
 
     /**
@@ -161,6 +167,9 @@ class CarsController extends Controller
             }
 
             //Actualizar registro
+            unset($params_array['id']);
+            unset($params_array['created_at']);
+            unset($params_array['user']);
 
             $car = Car::where('id', $id)->update($params_array);
 

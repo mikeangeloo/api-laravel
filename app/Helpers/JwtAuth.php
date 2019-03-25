@@ -33,7 +33,7 @@ class JwtAuth
             $signup = true;
         }
 
-        if($signup || is_null($getToken)){
+        if($signup){
             //Generar el token y devolverlo
             $token = array(
                 'sub' => $user->id,
